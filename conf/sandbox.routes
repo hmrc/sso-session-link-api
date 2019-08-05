@@ -1,0 +1,1 @@
+POST        /sso/ssoin/sessionInfo        controllers.SandboxController.createToken()

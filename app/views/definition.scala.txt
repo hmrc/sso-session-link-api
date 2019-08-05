@@ -1,0 +1,30 @@
+@import play.api.libs.json.Json
+
+@(whitelistedApplicationIds: Seq[String])
+
+{
+    "scopes": [
+        {
+            "key": "read:sso-in",
+            "name": "get session info id",
+            "description": "Get session info id"
+        }
+    ],
+    "api": {
+        "name": "Sso In",
+        "description": "Micro service providing SSO backend functionality between the portal and the MDTP platform.",
+        "context": "sso-in",
+        "versions": [
+            {
+                "version": "1.0",
+                "status": "STABLE",
+                "endpointsEnabled": true,
+                "access": {
+                    "type": "PRIVATE",
+                    "whitelistedApplicationIds": @Json.toJson(whitelistedApplicationIds)
+                }
+            }
+        ]
+    }
+}
+
