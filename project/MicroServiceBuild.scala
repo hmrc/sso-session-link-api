@@ -26,6 +26,7 @@ private object AppDependencies {
     "uk.gov.hmrc" %% "hmrctest" % "3.9.0-play-25" % "test,it",
     "org.scalatest" %% "scalatest" % "3.0.0" % "test,it",
     "com.typesafe.play" %% "play-test" % PlayVersion.current % "test,it",
+    "org.scalatestplus.play" % "scalatestplus-play_2.11" % "2.0.1" % "test,it",
     "uk.gov.hmrc" %% "government-gateway-test" % "1.7.0" % "it",
     "org.mockito" %% "mockito-scala-scalatest" % "1.5.13" % "test,it",
     "com.github.tomakehurst" % "wiremock" % "2.24.1" % "it"

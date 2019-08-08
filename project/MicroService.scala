@@ -9,8 +9,6 @@ import uk.gov.hmrc.sbtdistributables.SbtDistributablesPlugin._
 import play.sbt.routes.RoutesKeys.routesGenerator
 import play.sbt.routes.RoutesKeys._
 import scalariform.formatter.preferences._
-import uk.gov.hmrc.ServiceManagerPlugin.serviceManagerSettings
-import uk.gov.hmrc.ServiceManagerPlugin.Keys._
 import wartremover.{Wart, wartremoverErrors, wartremoverExcluded, wartremoverWarnings}
 import uk.gov.hmrc.versioning.SbtGitVersioning.autoImport.majorVersion
 import uk.gov.hmrc.SbtAutoBuildPlugin
@@ -30,17 +28,6 @@ trait MicroService {
   lazy val appDependencies: Seq[ModuleID] = ???
   lazy val plugins: Seq[Plugins] = Seq(play.sbt.PlayScala, SbtDistributablesPlugin)
   lazy val playSettings: Seq[Setting[_]] = Seq.empty
-
-  lazy val externalServices = List(
-    ExternalService(name = "EXTERNAL_PORTAL_STUB"),
-    ExternalService(name = "AUTH", enableTestOnlyEndpoints = true),
-    ExternalService(name = "OPENID_CONNECT_IDTOKEN"),
-    ExternalService(name = "AUTH_LOGIN_STUB"),
-    ExternalService(name = "GG", enableTestOnlyEndpoints = true),
-    ExternalService(name = "AUTH_LOGIN_API"),
-    ExternalService(name = "USER_DETAILS"),
-    ExternalService(name = "IDENTITY_VERIFICATION")
-  )
 
   lazy val scalariformSettings = {
     // description of options found here -> https://github.com/scala-ide/scalariform
@@ -75,23 +62,15 @@ trait MicroService {
   }
 
   lazy val wartRemoverWarning = {
-    // Warnings
-    val warningWarts = Seq(
-      //Wart.JavaSerializable,
+    wartremoverWarnings in (Compile, compile) ++= Seq(
       Wart.NonUnitStatements,
       Wart.StringPlusAny,
-      Wart.AsInstanceOf,
-      Wart.IsInstanceOf,
-      Wart.DefaultArguments,
-      Wart.FinalCaseClass,
       Wart.Nothing
     )
-    wartremoverWarnings in (Compile, compile) ++= warningWarts
   }
 
   lazy val wartRemoverError = {
-    // Error
-    val errorWarts = Seq(
+    wartremoverErrors in (Compile, compile) ++= Seq(
       Wart.ArrayEquals,
       Wart.Any,
       Wart.AnyVal,
@@ -111,16 +90,24 @@ trait MicroService {
       Wart.TryPartial,
       Wart.Var,
       Wart.While)
-
-    wartremoverErrors in (Compile, compile) ++= errorWarts
   }
 
   lazy val scoverageSettings = {
     import scoverage.ScoverageKeys
     Seq(
       // Semicolon-separated list of regexs matching classes to exclude
-      ScoverageKeys.coverageExcludedPackages := "<empty>;Reverse.*;.*(config|views.*);.*(AuthService|BuildInfo|Routes).*",
-      ScoverageKeys.coverageMinimum := 55,
+      ScoverageKeys.coverageExcludedPackages :=
+        """<empty>;
+          |Reverse.*;
+          |.*?(config|views.*);
+          |.*?(AuthService|BuildInfo|Routes).*;
+          |.*?DocumentationController.*;
+          |.*?SandboxController.*;
+          |.*?GuiceModule.*;
+          |.*?microserviceGlobal.*;
+          |.*?microserviceWiring
+          |""".stripMargin,
+      ScoverageKeys.coverageMinimum := 80,
       ScoverageKeys.coverageFailOnMinimum := true,
       ScoverageKeys.coverageHighlighting := true,
       parallelExecution in Test := false
@@ -142,16 +129,13 @@ trait MicroService {
     .settings(wartremoverExcluded ++=
       routes.in(Compile).value ++
         (baseDirectory.value ** "*.sc").get ++
-        (baseDirectory.value ** "HealthCheck.scala").get ++
-        (baseDirectory.value ** "HealthCheckRunner.scala").get ++
-        (baseDirectory.value ** "Lock.scala").get ++
         (baseDirectory.value / "it" ** "*.*").get ++
         (baseDirectory.value / "test" ** "*.*").get ++
         Seq(sourceManaged.value / "main" / "sbt-buildinfo" / "BuildInfo.scala")
     )
     .settings(
       targetJvm := "jvm-1.8",
-      scalaVersion := "2.11.11",
+      scalaVersion := "2.11.12",
       libraryDependencies ++= appDependencies,
       parallelExecution in Test := false,
       fork in Test := false,
@@ -160,8 +144,6 @@ trait MicroService {
     .settings(Repositories.playPublishingSettings: _*)
     .configs(IntegrationTest)
     .settings(inConfig(IntegrationTest)(Defaults.itSettings): _*)
-    .settings(serviceManagerSettings: _*)
-    .settings(itDependenciesList := externalServices)
     .settings(
       Keys.fork in IntegrationTest := false,
       unmanagedSourceDirectories in IntegrationTest <<= (baseDirectory in IntegrationTest) (base => Seq(base / "it")),
