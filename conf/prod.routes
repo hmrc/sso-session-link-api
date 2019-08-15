@@ -1,4 +1,4 @@
-->          /sso                          live.Routes
+->          /                             live.Routes
 ->          /sandbox                      sandbox.Routes
 ->          /                             health.Routes
 ->          /                             definition.Routes
