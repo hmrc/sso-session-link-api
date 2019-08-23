@@ -13,7 +13,7 @@
     "api": {
         "name": "Sso In",
         "description": "Micro service providing SSO backend functionality between the portal and the MDTP platform.",
-        "context": "sso-in",
+        "context": "sso-in/sso",
         "versions": [
             {
                 "version": "1.0",
