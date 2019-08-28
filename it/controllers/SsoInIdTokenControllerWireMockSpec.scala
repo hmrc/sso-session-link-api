@@ -14,7 +14,7 @@ class SsoInIdTokenControllerWireMockSpec extends WireMockSpec {
     "return 400 Bad Request when SSO returns 400 Bad Request" in new Setup {
       expectSsoToReturnBadRequest()
 
-      val result = await(resourceRequest("/sso/ssoin/sessionInfo")
+      val result = await(resourceRequest("/ssoin/sessionInfo")
         .withHeaders(HeaderNames.xSessionId -> UUID.randomUUID().toString)
         .withHeaders(HeaderNames.deviceID -> UUID.randomUUID().toString)
         .post(Json.obj(
@@ -27,7 +27,7 @@ class SsoInIdTokenControllerWireMockSpec extends WireMockSpec {
     "return 401 Unauthorized when the ID token is invalid" in new Setup {
       expectSsoToReturnUnauthorizedForInvalidToken()
 
-      val result = await(resourceRequest("/sso/ssoin/sessionInfo")
+      val result = await(resourceRequest("/ssoin/sessionInfo")
         .withHeaders(HeaderNames.xSessionId -> UUID.randomUUID().toString)
         .withHeaders(HeaderNames.deviceID -> UUID.randomUUID().toString)
         .post(Json.obj(
@@ -40,7 +40,7 @@ class SsoInIdTokenControllerWireMockSpec extends WireMockSpec {
     "return 403 Forbidden when the device ID is missing" in new Setup {
       expectSsoToReturnForbiddenForMissingDeviceId()
 
-      val result = await(resourceRequest("/sso/ssoin/sessionInfo")
+      val result = await(resourceRequest("/ssoin/sessionInfo")
         .withHeaders(HeaderNames.xSessionId -> UUID.randomUUID().toString)
         .post(Json.obj(
           "id_token" -> "first.second.third"
@@ -52,7 +52,7 @@ class SsoInIdTokenControllerWireMockSpec extends WireMockSpec {
     "return 403 Forbidden when the session ID is missing" in new Setup {
       expectSsoToReturnForbiddenForMissingSessionId()
 
-      val result = await(resourceRequest("/sso/ssoin/sessionInfo")
+      val result = await(resourceRequest("/ssoin/sessionInfo")
         .withHeaders(HeaderNames.deviceID -> UUID.randomUUID().toString)
         .post(Json.obj(
           "id_token" -> "first.second.third"
@@ -64,7 +64,7 @@ class SsoInIdTokenControllerWireMockSpec extends WireMockSpec {
     "return 201 and an SSO in URI when the request is valid" in new Setup {
       expectSsoToReturnCreatedForValidRequest()
 
-      val result = await(resourceRequest("/sso/ssoin/sessionInfo")
+      val result = await(resourceRequest("/ssoin/sessionInfo")
         .withHeaders(HeaderNames.xSessionId -> UUID.randomUUID().toString)
         .withHeaders(HeaderNames.deviceID -> UUID.randomUUID().toString)
         .post(Json.obj(
