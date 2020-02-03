@@ -19,10 +19,10 @@ package controllers
 import javax.inject.Inject
 import play.api.Configuration
 import play.api.http.MimeTypes
-import play.api.mvc.{Action, AnyContent}
-import uk.gov.hmrc.play.bootstrap.controller.BaseController
+import play.api.mvc.{Action, AnyContent, ControllerComponents}
+import uk.gov.hmrc.play.bootstrap.controller.{BackendController, BaseController}
 
-class DocumentationController @Inject() (config: Configuration) extends BaseController {
+class DocumentationController @Inject() (config: Configuration, cc: ControllerComponents) extends BackendController(cc) {
   private lazy val whitelist = config.getStringSeq("api.access.version-1.0.whitelistedApplicationIds").getOrElse(Nil)
 
   def definition(): Action[AnyContent] = Action { _ =>

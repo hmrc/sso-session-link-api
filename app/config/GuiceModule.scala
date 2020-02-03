@@ -18,9 +18,10 @@ package config
 
 import com.google.inject.AbstractModule
 import play.api.{Configuration, Environment}
+import uk.gov.hmrc.play.bootstrap.http.{DefaultHttpClient, HttpClient}
 
 class GuiceModule(environment: Environment, configuration: Configuration) extends AbstractModule {
   override def configure(): Unit = {
-    bind(classOf[WSHttp]).toInstance(WSHttp)
+    bind(classOf[HttpClient]).to(classOf[DefaultHttpClient])
   }
 }

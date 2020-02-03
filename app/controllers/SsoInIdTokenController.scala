@@ -20,13 +20,13 @@ import connectors.SsoConnector
 import javax.inject.Inject
 import models.SsoInRequest
 import play.api.libs.json.{JsValue, Json}
-import play.api.mvc.Action
+import play.api.mvc.{Action, ControllerComponents}
 import uk.gov.hmrc.http.{BadRequestException, Upstream4xxResponse}
-import uk.gov.hmrc.play.bootstrap.controller.BaseController
+import uk.gov.hmrc.play.bootstrap.controller.BackendController
 
 import scala.concurrent.ExecutionContext
 
-class SsoInIdTokenController @Inject() (ssoConnector: SsoConnector)(implicit ec: ExecutionContext) extends BaseController {
+class SsoInIdTokenController @Inject() (ssoConnector: SsoConnector, cc: ControllerComponents)(implicit ec: ExecutionContext) extends BackendController(cc) {
 
   def createToken(): Action[JsValue] = Action.async(parse.json) { implicit request =>
     withJsonBody[SsoInRequest] { ssoInRequest =>

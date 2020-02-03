@@ -7,6 +7,7 @@ object MicroServiceBuild extends Build with MicroService {
   val appName = "sso-session-link-api"
   val appVersion = envOrElse("SSO_VERSION", "999-SNAPSHOT")
   override lazy val appDependencies: Seq[ModuleID] = AppDependencies()
+  override lazy val overrides = AppDependencies.overrides
 }
 
 private object AppDependencies {
@@ -16,21 +17,36 @@ private object AppDependencies {
 
   val compile = Seq(
     ws,
-    "uk.gov.hmrc" %% "domain" % "5.3.0",
-    "uk.gov.hmrc" %% "play-hmrc-api" % "3.4.0-play-25",
-    "uk.gov.hmrc" %% "government-gateway-domain" % "1.32.0",
-    "uk.gov.hmrc" %% "bootstrap-play-25" % "5.1.0"
+    guice,
+    "uk.gov.hmrc" %% "government-gateway-domain" % "2.5.0" exclude("uk.gov.hmrc", "http-verbs_2.11"),
+    "uk.gov.hmrc" %% "bootstrap-play-26" % "1.3.0"
   )
 
   val test = Seq(
-    "uk.gov.hmrc" %% "hmrctest" % "3.9.0-play-25" % "test,it",
-    "org.scalatest" %% "scalatest" % "3.0.0" % "test,it",
-    "com.typesafe.play" %% "play-test" % PlayVersion.current % "test,it",
-    "org.scalatestplus.play" % "scalatestplus-play_2.11" % "2.0.1" % "test,it",
-    "uk.gov.hmrc" %% "government-gateway-test" % "1.7.0" % "it",
+    "uk.gov.hmrc" %% "government-gateway-test" % "2.5.0-play-26" % "test,it",
     "org.mockito" %% "mockito-scala-scalatest" % "1.5.13" % "test,it",
     "com.github.tomakehurst" % "wiremock" % "2.24.1" % "it"
   )
+
+  val overrides: Set[ModuleID] = {
+    val jettyFromWiremockVersion = "9.4.15.v20190215"
+    Set(
+      "org.eclipse.jetty"           % "jetty-client"       % jettyFromWiremockVersion % "it",
+      "org.eclipse.jetty"           % "jetty-continuation" % jettyFromWiremockVersion % "it",
+      "org.eclipse.jetty"           % "jetty-http"         % jettyFromWiremockVersion % "it",
+      "org.eclipse.jetty"           % "jetty-io"           % jettyFromWiremockVersion % "it",
+      "org.eclipse.jetty"           % "jetty-security"     % jettyFromWiremockVersion % "it",
+      "org.eclipse.jetty"           % "jetty-server"       % jettyFromWiremockVersion % "it",
+      "org.eclipse.jetty"           % "jetty-servlet"      % jettyFromWiremockVersion % "it" ,
+      "org.eclipse.jetty"           % "jetty-servlets"     % jettyFromWiremockVersion % "it",
+      "org.eclipse.jetty"           % "jetty-util"         % jettyFromWiremockVersion % "it",
+      "org.eclipse.jetty"           % "jetty-webapp"       % jettyFromWiremockVersion % "it",
+      "org.eclipse.jetty"           % "jetty-xml"          % jettyFromWiremockVersion % "it",
+      "org.eclipse.jetty.websocket" % "websocket-api"      % jettyFromWiremockVersion % "it",
+      "org.eclipse.jetty.websocket" % "websocket-client"   % jettyFromWiremockVersion % "it",
+      "org.eclipse.jetty.websocket" % "websocket-common"   % jettyFromWiremockVersion % "it"
+    )
+  }
 
   def apply() = compile ++ test
 }
