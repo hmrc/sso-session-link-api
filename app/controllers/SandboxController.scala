@@ -16,14 +16,15 @@
 
 package controllers
 
+import com.google.inject.Inject
 import models.SsoInRequest
 import play.api.libs.json.{JsValue, Json}
-import play.api.mvc.Action
-import uk.gov.hmrc.play.bootstrap.controller.BaseController
+import play.api.mvc.{Action, ControllerComponents}
+import uk.gov.hmrc.play.bootstrap.controller.BackendController
 
 import scala.concurrent.Future
 
-class SandboxController extends BaseController {
+class SandboxController @Inject() (cc: ControllerComponents) extends BackendController(cc) {
 
   def createToken(): Action[JsValue] = Action.async(parse.json) { implicit request =>
     withJsonBody[SsoInRequest] { _ =>

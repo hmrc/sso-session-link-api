@@ -2,7 +2,6 @@ package utils
 
 import com.typesafe.config.ConfigFactory
 import play.api.http.{HeaderNames, MimeTypes, Status}
-import play.api.libs.ws.{WSClient, WSRequest}
 import uk.gov.hmrc.gg.test.it.SmIntegrationWithWiremockSpecBase
 
 import scala.collection.JavaConverters._
@@ -12,8 +11,6 @@ trait WireMockSpec
     with HeaderNames
     with Status
     with MimeTypes {
-
-  lazy val wsClient = app.injector.instanceOf[WSClient]
 
   override protected def extraConfig = super.extraConfig ++ sendAllExternalRequestsToWireMockServer()
 

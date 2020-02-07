@@ -16,24 +16,21 @@
 
 package connectors
 
-import config.WSHttp
 import javax.inject.Inject
 import models.{BrowserAffordance, SsoInRequest}
-import play.api.Mode.Mode
+import play.api.Mode
 import play.api.{Configuration, Environment}
-import play.api.libs.json.{JsValue, Json}
 import uk.gov.hmrc.http.HeaderCarrier
-import uk.gov.hmrc.play.config.ServicesConfig
+import uk.gov.hmrc.play.bootstrap.config.ServicesConfig
+import uk.gov.hmrc.play.bootstrap.http.HttpClient
 
 import scala.concurrent.{ExecutionContext, Future}
 
-class SsoConnector @Inject() (http:                     WSHttp,
+class SsoConnector @Inject() (http:                     HttpClient,
                               val runModeConfiguration: Configuration,
-                              environment:              Environment)(implicit ec: ExecutionContext) extends ServicesConfig {
+                              servicesConfig:           ServicesConfig)(implicit ec: ExecutionContext) {
 
-  override protected def mode: Mode = environment.mode
-
-  private lazy val ssoBaseUrl = baseUrl("sso")
+  private lazy val ssoBaseUrl = servicesConfig.baseUrl("sso")
 
   def createToken(request: SsoInRequest)(implicit hc: HeaderCarrier): Future[BrowserAffordance] = {
     http.POST[SsoInRequest, BrowserAffordance](s"$ssoBaseUrl/sso/ssoin/sessionInfo", request)

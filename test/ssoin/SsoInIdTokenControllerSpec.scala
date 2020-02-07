@@ -24,16 +24,16 @@ import models.BrowserAffordance
 import org.mockito.scalatest.MockitoSugar
 import org.scalatestplus.play.guice.GuiceOneAppPerSuite
 import play.api.libs.json.Json
+import play.api.mvc.ControllerComponents
 import play.api.test.FakeRequest
 import play.api.test.Helpers._
+import uk.gov.hmrc.gg.test.UnitSpec
 import uk.gov.hmrc.http.{BadRequestException, Upstream4xxResponse}
-import uk.gov.hmrc.play.test.UnitSpec
 
 import scala.concurrent.{ExecutionContext, Future}
 
 class SsoInIdTokenControllerSpec
   extends UnitSpec
-  with MockitoSugar
   with GuiceOneAppPerSuite {
 
   "createToken" should {
@@ -120,6 +120,7 @@ class SsoInIdTokenControllerSpec
 
   trait Setup {
     val mockSsoConnector = mock[SsoConnector]
-    val controller = new SsoInIdTokenController(mockSsoConnector)(ExecutionContext.global)
+    val cc = app.injector.instanceOf(classOf[ControllerComponents])
+    val controller = new SsoInIdTokenController(mockSsoConnector, cc)(ExecutionContext.global)
   }
 }

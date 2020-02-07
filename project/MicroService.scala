@@ -28,6 +28,7 @@ trait MicroService {
   lazy val appDependencies: Seq[ModuleID] = ???
   lazy val plugins: Seq[Plugins] = Seq(play.sbt.PlayScala, SbtDistributablesPlugin)
   lazy val playSettings: Seq[Setting[_]] = Seq.empty
+  lazy val overrides: Set[ModuleID] = ???
 
   lazy val scalariformSettings = {
     // description of options found here -> https://github.com/scala-ide/scalariform
@@ -137,6 +138,7 @@ trait MicroService {
       targetJvm := "jvm-1.8",
       scalaVersion := "2.11.12",
       libraryDependencies ++= appDependencies,
+      dependencyOverrides ++= overrides,
       parallelExecution in Test := false,
       fork in Test := false,
       retrieveManaged := true
