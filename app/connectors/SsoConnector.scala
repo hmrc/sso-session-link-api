@@ -18,8 +18,7 @@ package connectors
 
 import javax.inject.Inject
 import models.{BrowserAffordance, SsoInRequest}
-import play.api.Mode
-import play.api.{Configuration, Environment}
+import play.api.Configuration
 import uk.gov.hmrc.http.HeaderCarrier
 import uk.gov.hmrc.play.bootstrap.config.ServicesConfig
 import uk.gov.hmrc.play.bootstrap.http.HttpClient
