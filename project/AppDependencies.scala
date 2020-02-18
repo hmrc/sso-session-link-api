@@ -1,31 +1,20 @@
 import sbt._
 
-object MicroServiceBuild extends Build with MicroService {
 
-  import scala.util.Properties.envOrElse
 
-  val appName = "sso-session-link-api"
-  val appVersion = envOrElse("SSO_VERSION", "999-SNAPSHOT")
-  override lazy val appDependencies: Seq[ModuleID] = AppDependencies()
-  override lazy val overrides = AppDependencies.overrides
-}
-
-private object AppDependencies {
+object AppDependencies {
 
   import play.sbt.PlayImport._
-  import play.core.PlayVersion
 
   val compile = Seq(
     ws,
     guice,
-    "uk.gov.hmrc" %% "government-gateway-domain" % "2.5.0" exclude("uk.gov.hmrc", "http-verbs_2.11"),
+    "uk.gov.hmrc" %% "government-gateway-domain" % "2.7.0",
     "uk.gov.hmrc" %% "bootstrap-play-26" % "1.3.0"
   )
 
   val test = Seq(
-    "uk.gov.hmrc" %% "government-gateway-test" % "2.5.0-play-26" % "test,it",
-    "org.mockito" %% "mockito-scala-scalatest" % "1.5.13" % "test,it",
-    "com.github.tomakehurst" % "wiremock" % "2.24.1" % "it"
+    "uk.gov.hmrc" %% "government-gateway-test" % "2.6.0" % "test,it"
   )
 
   val overrides: Set[ModuleID] = {

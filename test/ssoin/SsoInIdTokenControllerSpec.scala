@@ -21,12 +21,10 @@ import java.util.UUID
 import connectors.SsoConnector
 import controllers.SsoInIdTokenController
 import models.BrowserAffordance
-import org.mockito.scalatest.MockitoSugar
 import org.scalatestplus.play.guice.GuiceOneAppPerSuite
 import play.api.libs.json.Json
 import play.api.mvc.ControllerComponents
 import play.api.test.FakeRequest
-import play.api.test.Helpers._
 import uk.gov.hmrc.gg.test.UnitSpec
 import uk.gov.hmrc.http.{BadRequestException, Upstream4xxResponse}
 

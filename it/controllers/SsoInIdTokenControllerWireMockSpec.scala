@@ -15,8 +15,8 @@ class SsoInIdTokenControllerWireMockSpec extends WireMockSpec {
       expectSsoToReturnBadRequest()
 
       val result = await(resourceRequest("/ssoin/sessionInfo")
-        .withHeaders(HeaderNames.xSessionId -> UUID.randomUUID().toString)
-        .withHeaders(HeaderNames.deviceID -> UUID.randomUUID().toString)
+        .withHttpHeaders(HeaderNames.xSessionId -> UUID.randomUUID().toString)
+        .addHttpHeaders(HeaderNames.deviceID -> UUID.randomUUID().toString)
         .post(Json.obj(
           "id_token" -> "something"
         )))
@@ -28,8 +28,8 @@ class SsoInIdTokenControllerWireMockSpec extends WireMockSpec {
       expectSsoToReturnUnauthorizedForInvalidToken()
 
       val result = await(resourceRequest("/ssoin/sessionInfo")
-        .withHeaders(HeaderNames.xSessionId -> UUID.randomUUID().toString)
-        .withHeaders(HeaderNames.deviceID -> UUID.randomUUID().toString)
+        .withHttpHeaders(HeaderNames.xSessionId -> UUID.randomUUID().toString)
+        .addHttpHeaders(HeaderNames.deviceID -> UUID.randomUUID().toString)
         .post(Json.obj(
           "id_token" -> "invalid"
         )))
@@ -41,7 +41,7 @@ class SsoInIdTokenControllerWireMockSpec extends WireMockSpec {
       expectSsoToReturnForbiddenForMissingDeviceId()
 
       val result = await(resourceRequest("/ssoin/sessionInfo")
-        .withHeaders(HeaderNames.xSessionId -> UUID.randomUUID().toString)
+        .withHttpHeaders(HeaderNames.xSessionId -> UUID.randomUUID().toString)
         .post(Json.obj(
           "id_token" -> "first.second.third"
         )))
@@ -53,7 +53,7 @@ class SsoInIdTokenControllerWireMockSpec extends WireMockSpec {
       expectSsoToReturnForbiddenForMissingSessionId()
 
       val result = await(resourceRequest("/ssoin/sessionInfo")
-        .withHeaders(HeaderNames.deviceID -> UUID.randomUUID().toString)
+        .withHttpHeaders(HeaderNames.deviceID -> UUID.randomUUID().toString)
         .post(Json.obj(
           "id_token" -> "first.second.third"
         )))
@@ -65,8 +65,8 @@ class SsoInIdTokenControllerWireMockSpec extends WireMockSpec {
       expectSsoToReturnCreatedForValidRequest()
 
       val result = await(resourceRequest("/ssoin/sessionInfo")
-        .withHeaders(HeaderNames.xSessionId -> UUID.randomUUID().toString)
-        .withHeaders(HeaderNames.deviceID -> UUID.randomUUID().toString)
+        .withHttpHeaders(HeaderNames.xSessionId -> UUID.randomUUID().toString)
+        .addHttpHeaders(HeaderNames.deviceID -> UUID.randomUUID().toString)
         .post(Json.obj(
           "id_token" -> "first.second.third"
         )))

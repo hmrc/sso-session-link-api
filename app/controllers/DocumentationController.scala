@@ -20,16 +20,16 @@ import javax.inject.Inject
 import play.api.Configuration
 import play.api.http.MimeTypes
 import play.api.mvc.{Action, AnyContent, ControllerComponents}
-import uk.gov.hmrc.play.bootstrap.controller.{BackendController, BaseController}
+import uk.gov.hmrc.play.bootstrap.controller.BackendController
 
-class DocumentationController @Inject() (config: Configuration, cc: ControllerComponents) extends BackendController(cc) {
-  private lazy val whitelist = config.getStringSeq("api.access.version-1.0.whitelistedApplicationIds").getOrElse(Nil)
+class DocumentationController @Inject() (config: Configuration, cc: ControllerComponents, assets: Assets) extends BackendController(cc) {
+  private lazy val whitelist = config.getOptional[Seq[String]]("api.access.version-1.0.whitelistedApplicationIds").getOrElse(Nil)
 
   def definition(): Action[AnyContent] = Action { _ =>
     Ok(views.txt.definition(whitelist)).withHeaders(CONTENT_TYPE -> MimeTypes.JSON)
   }
 
   def raml(version: String, file: String): Action[AnyContent] = {
-    controllers.Assets.at(s"/public/api/conf/$version", file)
+    assets.at(s"/public/api/conf/$version", file)
   }
 }
