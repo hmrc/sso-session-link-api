@@ -9,8 +9,8 @@ object AppDependencies {
   val compile = Seq(
     ws,
     guice,
-    "uk.gov.hmrc" %% "government-gateway-domain" % "2.7.0",
-    "uk.gov.hmrc" %% "bootstrap-play-26" % "1.3.0"
+    "uk.gov.hmrc" %% "government-gateway-domain" % "2.8.0",
+    "uk.gov.hmrc" %% "bootstrap-play-26" % "1.5.0"
   )
 
   val test = Seq(
