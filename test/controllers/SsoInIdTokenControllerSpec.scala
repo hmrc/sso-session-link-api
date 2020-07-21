@@ -14,12 +14,11 @@
  * limitations under the License.
  */
 
-package ssoin
+package controllers
 
 import java.util.UUID
 
 import connectors.SsoConnector
-import controllers.SsoInIdTokenController
 import models.BrowserAffordance
 import org.scalatestplus.play.guice.GuiceOneAppPerSuite
 import play.api.libs.json.Json
