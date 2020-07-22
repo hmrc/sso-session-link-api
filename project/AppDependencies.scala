@@ -9,12 +9,12 @@ object AppDependencies {
   val compile = Seq(
     ws,
     guice,
-    "uk.gov.hmrc" %% "government-gateway-domain" % "2.8.0",
-    "uk.gov.hmrc" %% "bootstrap-play-26" % "1.5.0"
+    "uk.gov.hmrc" %% "government-gateway-domain" % "5.0.0",
+    "uk.gov.hmrc" %% "bootstrap-play-26" % "1.9.0"
   )
 
   val test = Seq(
-    "uk.gov.hmrc" %% "government-gateway-test" % "2.6.0" % "test,it"
+    "uk.gov.hmrc" %% "government-gateway-test" % "3.1.0" % "test,it"
   )
 
   val overrides: Set[ModuleID] = {

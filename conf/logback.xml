@@ -47,9 +47,12 @@
 
     <logger name="application" level="INFO"/>
 
-    <logger name="connector" level="INFO">
+    <logger name="connector" level="WARN">
         <appender-ref ref="STDOUT"/>
     </logger>
+
+    <logger name="org.eclipse.jetty" level="WARN"/>
+    <logger name="uk.gov.hmrc.play.bootstrap.audit.DefaultAuditConnector" level="WARN"/>
 
     <root level="INFO">
         <appender-ref ref="FILE"/>

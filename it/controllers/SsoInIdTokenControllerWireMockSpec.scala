@@ -3,9 +3,9 @@ package controllers
 import java.util.UUID
 
 import play.api.libs.json.Json
-import utils.WireMockSpec
 import com.github.tomakehurst.wiremock.client.WireMock._
 import com.github.tomakehurst.wiremock.matching.AnythingPattern
+import uk.gov.hmrc.gg.test.WireMockSpec
 import uk.gov.hmrc.http.HeaderNames
 
 class SsoInIdTokenControllerWireMockSpec extends WireMockSpec {
