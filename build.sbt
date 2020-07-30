@@ -19,7 +19,6 @@ lazy val microservice = Project("sso-session-link-api", file("."))
   .settings(
     targetJvm := "jvm-1.8",
     libraryDependencies ++= AppDependencies(),
-    dependencyOverrides ++= AppDependencies.overrides,
     parallelExecution in Test := false,
     fork in Test := false,
     retrieveManaged := true

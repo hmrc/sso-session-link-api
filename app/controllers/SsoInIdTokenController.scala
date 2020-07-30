@@ -21,7 +21,7 @@ import javax.inject.Inject
 import models.SsoInRequest
 import play.api.libs.json.{JsValue, Json}
 import play.api.mvc.{Action, ControllerComponents}
-import uk.gov.hmrc.http.{BadRequestException, Upstream4xxResponse}
+import uk.gov.hmrc.http.Upstream4xxResponse
 import uk.gov.hmrc.play.bootstrap.controller.BackendController
 
 import scala.concurrent.ExecutionContext
@@ -32,9 +32,9 @@ class SsoInIdTokenController @Inject() (ssoConnector: SsoConnector, cc: Controll
     withJsonBody[SsoInRequest] { ssoInRequest =>
       ssoConnector.createToken(ssoInRequest).map(affordance => Created(Json.toJson(affordance)))
     }.recover {
-      case e: BadRequestException            => BadRequest(e.getMessage)
-      case Upstream4xxResponse(_, 401, _, _) => Unauthorized
-      case Upstream4xxResponse(_, 403, _, _) => Forbidden
+      case Upstream4xxResponse(message, 400, _, _) => BadRequest(message)
+      case Upstream4xxResponse(_, 401, _, _)       => Unauthorized
+      case Upstream4xxResponse(_, 403, _, _)       => Forbidden
     }
   }
 }
