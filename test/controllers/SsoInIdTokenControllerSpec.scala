@@ -25,7 +25,7 @@ import play.api.libs.json.Json
 import play.api.mvc.ControllerComponents
 import play.api.test.FakeRequest
 import uk.gov.hmrc.gg.test.UnitSpec
-import uk.gov.hmrc.http.{BadRequestException, Upstream4xxResponse}
+import uk.gov.hmrc.http.UpstreamErrorResponse
 
 import scala.concurrent.{ExecutionContext, Future}
 
@@ -41,28 +41,28 @@ class SsoInIdTokenControllerSpec
     }
 
     "return 400 Bad Request when SSO returns 400 Bad Request" in new Setup {
-      when(mockSsoConnector.createToken(any)(any)).thenReturn(Future.failed(new BadRequestException("the request was bad")))
+      when(mockSsoConnector.createToken(any)(any)).thenReturn(Future.failed(UpstreamErrorResponse("the request was bad", 400, 400)))
 
       val result = controller.createToken()(FakeRequest().withBody(Json.obj("id_token" -> "something")))
       status(result) shouldBe BAD_REQUEST
     }
 
     "return 401 Unauthorized when the ID token is invalid" in new Setup {
-      when(mockSsoConnector.createToken(any)(any)).thenReturn(Future.failed(Upstream4xxResponse("", 401, 401)))
+      when(mockSsoConnector.createToken(any)(any)).thenReturn(Future.failed(UpstreamErrorResponse("", 401, 401)))
 
       val result = controller.createToken()(FakeRequest().withBody(Json.obj("id_token" -> "invalid")))
       status(result) shouldBe UNAUTHORIZED
     }
 
     "return 403 Forbidden when the device ID is missing" in new Setup {
-      when(mockSsoConnector.createToken(any)(any)).thenReturn(Future.failed(Upstream4xxResponse("", 403, 403)))
+      when(mockSsoConnector.createToken(any)(any)).thenReturn(Future.failed(UpstreamErrorResponse("", 403, 403)))
 
       val result = controller.createToken()(FakeRequest().withBody(Json.obj("id_token" -> "something")))
       status(result) shouldBe FORBIDDEN
     }
 
     "return 403 Forbidden when the session ID is missing" in new Setup {
-      when(mockSsoConnector.createToken(any)(any)).thenReturn(Future.failed(Upstream4xxResponse("", 403, 403)))
+      when(mockSsoConnector.createToken(any)(any)).thenReturn(Future.failed(UpstreamErrorResponse("", 403, 403)))
 
       val result = controller.createToken()(FakeRequest().withBody(Json.obj("id_token" -> "something")))
       status(result) shouldBe FORBIDDEN

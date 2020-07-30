@@ -18,16 +18,17 @@ package connectors
 
 import javax.inject.Inject
 import models.{BrowserAffordance, SsoInRequest}
-import play.api.Configuration
 import uk.gov.hmrc.http.HeaderCarrier
 import uk.gov.hmrc.play.bootstrap.config.ServicesConfig
 import uk.gov.hmrc.play.bootstrap.http.HttpClient
+import uk.gov.hmrc.http.HttpReads.Implicits._
 
 import scala.concurrent.{ExecutionContext, Future}
 
-class SsoConnector @Inject() (http:                     HttpClient,
-                              val runModeConfiguration: Configuration,
-                              servicesConfig:           ServicesConfig)(implicit ec: ExecutionContext) {
+class SsoConnector @Inject() (
+    http:           HttpClient,
+    servicesConfig: ServicesConfig
+)(implicit ec: ExecutionContext) {
 
   private lazy val ssoBaseUrl = servicesConfig.baseUrl("sso")
 
