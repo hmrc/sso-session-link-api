@@ -23,10 +23,10 @@ import play.api.mvc.{Action, AnyContent, ControllerComponents}
 import uk.gov.hmrc.play.bootstrap.controller.BackendController
 
 class DocumentationController @Inject() (config: Configuration, cc: ControllerComponents, assets: Assets) extends BackendController(cc) {
-  private lazy val whitelist = config.getOptional[Seq[String]]("api.access.version-1.0.whitelistedApplicationIds").getOrElse(Nil)
+  private lazy val permitted = config.getOptional[Seq[String]]("api.access.version-1.0.permittedApplicationIds").getOrElse(Nil)
 
   def definition(): Action[AnyContent] = Action { _ =>
-    Ok(views.txt.definition(whitelist)).withHeaders(CONTENT_TYPE -> MimeTypes.JSON)
+    Ok(views.txt.definition(permitted)).withHeaders(CONTENT_TYPE -> MimeTypes.JSON)
   }
 
   def raml(version: String, file: String): Action[AnyContent] = {
