@@ -20,7 +20,7 @@ import javax.inject.Inject
 import play.api.Configuration
 import play.api.http.MimeTypes
 import play.api.mvc.{Action, AnyContent, ControllerComponents}
-import uk.gov.hmrc.play.bootstrap.controller.BackendController
+import uk.gov.hmrc.play.bootstrap.backend.controller.BackendController
 
 class DocumentationController @Inject() (config: Configuration, cc: ControllerComponents, assets: Assets) extends BackendController(cc) {
   private lazy val permitted = config.getOptional[Seq[String]]("api.access.version-1.0.permittedApplicationIds").getOrElse(Nil)
