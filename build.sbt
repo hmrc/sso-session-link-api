@@ -4,13 +4,11 @@ import sbt._
 import uk.gov.hmrc.DefaultBuildSettings._
 import uk.gov.hmrc.sbtdistributables.SbtDistributablesPlugin
 import uk.gov.hmrc.sbtdistributables.SbtDistributablesPlugin._
-import uk.gov.hmrc.versioning.SbtGitVersioning
 import uk.gov.hmrc.versioning.SbtGitVersioning.autoImport.majorVersion
-import uk.gov.hmrc.SbtAutoBuildPlugin
 
 lazy val microservice = Project("sso-session-link-api", file("."))
   .settings(majorVersion := 0)
-  .enablePlugins(play.sbt.PlayScala, SbtAutoBuildPlugin, SbtGitVersioning, SbtDistributablesPlugin)
+  .enablePlugins(play.sbt.PlayScala, SbtDistributablesPlugin)
   .settings(scalaSettings: _*)
   .settings(scalaVersion := "2.12.11")
   .settings(scalacOptions ++= Seq("-Xfatal-warnings", "-feature"))
