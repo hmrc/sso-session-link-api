@@ -9,10 +9,10 @@ addSbtPlugin("com.github.gseitz" % "sbt-release" % "1.0.12")
 
 addSbtPlugin("uk.gov.hmrc" % "sbt-distributables" % "2.1.0")
 
-addSbtPlugin("org.scoverage" % "sbt-scoverage" % "1.6.1")
+addSbtPlugin("org.scoverage" % "sbt-scoverage" % "1.9.3")
 
 addSbtPlugin("org.scalariform" % "sbt-scalariform" % "1.8.3")
 
-addSbtPlugin("uk.gov.hmrc" % "sbt-auto-build" % "3.5.0")
+addSbtPlugin("uk.gov.hmrc" % "sbt-auto-build" % "3.6.0")
 
-addSbtPlugin("uk.gov.hmrc" % "sbt-settings" % "4.9.0")
+addSbtPlugin("uk.gov.hmrc" % "sbt-settings" % "4.10.0")
