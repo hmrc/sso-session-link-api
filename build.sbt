@@ -10,15 +10,15 @@ lazy val microservice = Project("sso-session-link-api", file("."))
   .settings(majorVersion := 0)
   .enablePlugins(play.sbt.PlayScala, SbtDistributablesPlugin)
   .settings(scalaSettings: _*)
-  .settings(scalaVersion := "2.12.15")
+  .settings(scalaVersion := "2.12.16")
   .settings(scalacOptions ++= Seq("-Xfatal-warnings", "-feature"))
   .settings(publishingSettings: _*)
   .settings(defaultSettings(): _*)
   .settings(
     targetJvm := "jvm-1.8",
     libraryDependencies ++= AppDependencies(),
-    parallelExecution in Test := false,
-    fork in Test := false,
+      Test / parallelExecution := false,
+      Test / fork := false,
     retrieveManaged := true
   )
   .configs(IntegrationTest)

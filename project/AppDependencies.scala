@@ -8,7 +8,7 @@ object AppDependencies {
     ws,
     guice,
     "uk.gov.hmrc" %% "government-gateway-domain" % "7.2.0-play-28",
-    "uk.gov.hmrc" %% "bootstrap-backend-play-28" % "5.24.0"
+    "uk.gov.hmrc" %% "bootstrap-backend-play-28" % "7.2.0"
   )
 
   val test = Seq(
