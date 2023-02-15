@@ -1,0 +1,140 @@
+openapi: 3.0.0
+info:
+  title: SSO In
+  version: '1.0'
+servers:
+- url: https://api.service.hmrc.gov.uk/
+paths:
+  /sso-in/sso/ssoin/sessionInfo:
+    post:
+      tags:
+      - sso-in
+      summary: Stores Bearer Token and returns sso-fe url to create session with the Bearer token
+      description: Returns a browser link containing session info ID
+      operationId: StoresBearerTokenandreturnssso-feurltocreatesessionwiththeBearertoken
+      parameters:
+        - $ref: '#/components/parameters/acceptHeader'
+        - $ref: '#/components/parameters/authorizationHeader'
+      requestBody:
+        description: ''
+        content:
+          application/json:
+            schema:
+              allOf:
+              - $ref: '#/components/schemas/SsoInSsoSsoinSessionInforequest'
+              - example:
+                  id_token: eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJpc3MiOiJ0ZXN0Iiwic3ViIjoiRXh0LWYwYzRmZGIxLTkwMGMtNGVkNi05Mzg2LTYwZDY4ZDIwZWViNCIsImF1ZCI6WyJkZGQ4ZjNhMi1iZTNjLTQ3MDAtYmU4YS04MTMxZDczOGIzMDciXSwiZXhwIjoxNDk0NTA2MTQ1ODg4LCJpYXQiOjE0OTQ0OTE3NDU4ODh9.nieB3jw06H1Z9CrawcHO5WXXXEovle7dRYTYBq9UsRs
+                  mdtpSessionId: asdas-2321-asdad-fdsdfsd
+                  portalSessionId: asdas-2321-asdad-fdsdfsd
+            examples:
+              example-1:
+                value:
+                  id_token: eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJpc3MiOiJ0ZXN0Iiwic3ViIjoiRXh0LWYwYzRmZGIxLTkwMGMtNGVkNi05Mzg2LTYwZDY4ZDIwZWViNCIsImF1ZCI6WyJkZGQ4ZjNhMi1iZTNjLTQ3MDAtYmU4YS04MTMxZDczOGIzMDciXSwiZXhwIjoxNDk0NTA2MTQ1ODg4LCJpYXQiOjE0OTQ0OTE3NDU4ODh9.nieB3jw06H1Z9CrawcHO5WXXXEovle7dRYTYBq9UsRs
+                  mdtpSessionId: asdas-2321-asdad-fdsdfsd
+                  portalSessionId: asdas-2321-asdad-fdsdfsd
+        required: true
+      responses:
+        '200':
+          description: ''
+          headers: {}
+          content:
+            application/json:
+              schema:
+                allOf:
+                - $ref: '#/components/schemas/SsoInSsoSsoinSessionInforesponse'
+                - example:
+                    _links:
+                      browser:
+                        href: /sso/ssoin/5a003c6352000072009a711e
+              examples:
+                example-1:
+                  value:
+                    _links:
+                      browser:
+                        href: /sso/ssoin/5a003c6352000072009a711e
+      deprecated: false
+      security:
+        - userRestricted: []
+components:
+  schemas:
+    errorResponse:
+      title: errorResponse
+      required:
+      - code
+      type: object
+      properties:
+        code:
+          type: string
+    Browser:
+      title: Browser
+      required:
+      - href
+      type: object
+      properties:
+        href:
+          type: string
+      example:
+        href: /sso/ssoin/5a003c6352000072009a711e
+    Links:
+      title: Links
+      required:
+      - browser
+      type: object
+      properties:
+        browser:
+          $ref: '#/components/schemas/Browser'
+      example:
+        browser:
+          href: /sso/ssoin/5a003c6352000072009a711e
+    SsoInSsoSsoinSessionInforequest:
+      title: SsoInSsoSsoinSessionInforequest
+      required:
+      - id_token
+      type: object
+      properties:
+        id_token:
+          type: string
+        mdtpSessionId:
+          type: string
+        portalSessionId:
+          type: string
+      example:
+        id_token: eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJpc3MiOiJ0ZXN0Iiwic3ViIjoiRXh0LWYwYzRmZGIxLTkwMGMtNGVkNi05Mzg2LTYwZDY4ZDIwZWViNCIsImF1ZCI6WyJkZGQ4ZjNhMi1iZTNjLTQ3MDAtYmU4YS04MTMxZDczOGIzMDciXSwiZXhwIjoxNDk0NTA2MTQ1ODg4LCJpYXQiOjE0OTQ0OTE3NDU4ODh9.nieB3jw06H1Z9CrawcHO5WXXXEovle7dRYTYBq9UsRs
+        mdtpSessionId: asdas-2321-asdad-fdsdfsd
+        portalSessionId: asdas-2321-asdad-fdsdfsd
+    SsoInSsoSsoinSessionInforesponse:
+      title: SsoInSsoSsoinSessionInforesponse
+      required:
+      - _links
+      type: object
+      properties:
+        _links:
+          $ref: '#/components/schemas/Links'
+      example:
+        _links:
+          browser:
+            href: /sso/ssoin/5a003c6352000072009a711e
+  parameters:
+    acceptHeader:
+      name: Accept
+      description: Specifies the response format and the [version](/api-documentation/docs/reference-guide#versioning) of the API to be used.
+      in: header
+      schema:
+        type: string
+        example: application/vnd.hmrc.1.0+json
+      required: true
+    authorizationHeader:
+      name: Authorization
+      description: An [OAuth 2.0 Bearer Token](/api-documentation/docs/authorisation/user-restricted-endpoints) with the `read:sso-in` scope.
+      in: header
+      schema:
+        type: string
+        example: Bearer bb7fed3fe10dd235a2ccda3d50fb
+      required: true
+  securitySchemes:
+    userRestricted:
+      type: OAuth 2.0
+      description: HMRC supports OAuth 2.0 for authenticating User-restricted API requests
+tags:
+- name: sso-in
+  description: ''
