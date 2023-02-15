@@ -125,7 +125,7 @@ components:
       required: true
     authorizationHeader:
       name: Authorization
-      description: An [OAuth 2.0 Bearer Token](/api-documentation/docs/authorisation/user-restricted-endpoints) with the `read:sso-in` scope.
+      description: An OAuth 2.0 Bearer Token
       in: header
       schema:
         type: string
