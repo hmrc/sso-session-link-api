@@ -1,5 +1,5 @@
 /*
- * Copyright 2022 HM Revenue & Customs
+ * Copyright 2023 HM Revenue & Customs
  *
  * Licensed under the Apache License, Version 2.0 (the "License");
  * you may not use this file except in compliance with the License.
@@ -17,13 +17,13 @@
 package controllers
 
 import connectors.SsoConnector
-import javax.inject.Inject
 import models.SsoInRequest
 import play.api.libs.json.{JsValue, Json}
 import play.api.mvc.{Action, ControllerComponents}
-import uk.gov.hmrc.http.Upstream4xxResponse
+import uk.gov.hmrc.http.UpstreamErrorResponse
 import uk.gov.hmrc.play.bootstrap.backend.controller.BackendController
 
+import javax.inject.Inject
 import scala.concurrent.ExecutionContext
 
 class SsoInIdTokenController @Inject() (ssoConnector: SsoConnector, cc: ControllerComponents)(implicit ec: ExecutionContext) extends BackendController(cc) {
@@ -32,9 +32,9 @@ class SsoInIdTokenController @Inject() (ssoConnector: SsoConnector, cc: Controll
     withJsonBody[SsoInRequest] { ssoInRequest =>
       ssoConnector.createToken(ssoInRequest).map(affordance => Created(Json.toJson(affordance)))
     }.recover {
-      case Upstream4xxResponse(message, 400, _, _) => BadRequest(message)
-      case Upstream4xxResponse(_, 401, _, _)       => Unauthorized
-      case Upstream4xxResponse(_, 403, _, _)       => Forbidden
+      case UpstreamErrorResponse(message, 400, _, _) => BadRequest(message)
+      case UpstreamErrorResponse(_, 401, _, _)       => Unauthorized
+      case UpstreamErrorResponse(_, 403, _, _)       => Forbidden
     }
   }
 }
