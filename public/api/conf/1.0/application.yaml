@@ -3,12 +3,10 @@ info:
   title: SSO In
   version: '1.0'
 servers:
-- url: https://api.service.hmrc.gov.uk/
+  - url: https://api.service.hmrc.gov.uk/
 paths:
   /sso-in/sso/ssoin/sessionInfo:
     post:
-      tags:
-      - sso-in
       summary: Stores Bearer Token and returns sso-fe url to create session with the Bearer token
       description: Returns a browser link containing session info ID
       operationId: StoresBearerTokenandreturnssso-feurltocreatesessionwiththeBearertoken
@@ -21,11 +19,11 @@ paths:
           application/json:
             schema:
               allOf:
-              - $ref: '#/components/schemas/SsoInSsoSsoinSessionInforequest'
-              - example:
-                  id_token: eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJpc3MiOiJ0ZXN0Iiwic3ViIjoiRXh0LWYwYzRmZGIxLTkwMGMtNGVkNi05Mzg2LTYwZDY4ZDIwZWViNCIsImF1ZCI6WyJkZGQ4ZjNhMi1iZTNjLTQ3MDAtYmU4YS04MTMxZDczOGIzMDciXSwiZXhwIjoxNDk0NTA2MTQ1ODg4LCJpYXQiOjE0OTQ0OTE3NDU4ODh9.nieB3jw06H1Z9CrawcHO5WXXXEovle7dRYTYBq9UsRs
-                  mdtpSessionId: asdas-2321-asdad-fdsdfsd
-                  portalSessionId: asdas-2321-asdad-fdsdfsd
+                - $ref: '#/components/schemas/SsoInSsoSsoinSessionInforequest'
+                - example:
+                    id_token: eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJpc3MiOiJ0ZXN0Iiwic3ViIjoiRXh0LWYwYzRmZGIxLTkwMGMtNGVkNi05Mzg2LTYwZDY4ZDIwZWViNCIsImF1ZCI6WyJkZGQ4ZjNhMi1iZTNjLTQ3MDAtYmU4YS04MTMxZDczOGIzMDciXSwiZXhwIjoxNDk0NTA2MTQ1ODg4LCJpYXQiOjE0OTQ0OTE3NDU4ODh9.nieB3jw06H1Z9CrawcHO5WXXXEovle7dRYTYBq9UsRs
+                    mdtpSessionId: asdas-2321-asdad-fdsdfsd
+                    portalSessionId: asdas-2321-asdad-fdsdfsd
             examples:
               example-1:
                 value:
@@ -36,16 +34,16 @@ paths:
       responses:
         '200':
           description: ''
-          headers: {}
+          headers: { }
           content:
             application/json:
               schema:
                 allOf:
-                - $ref: '#/components/schemas/SsoInSsoSsoinSessionInforesponse'
-                - example:
-                    _links:
-                      browser:
-                        href: /sso/ssoin/5a003c6352000072009a711e
+                  - $ref: '#/components/schemas/SsoInSsoSsoinSessionInforesponse'
+                  - example:
+                      _links:
+                        browser:
+                          href: /sso/ssoin/5a003c6352000072009a711e
               examples:
                 example-1:
                   value:
@@ -54,13 +52,13 @@ paths:
                         href: /sso/ssoin/5a003c6352000072009a711e
       deprecated: false
       security:
-        - userRestricted: []
+        - userRestricted: [ all ]
 components:
   schemas:
     errorResponse:
       title: errorResponse
       required:
-      - code
+        - code
       type: object
       properties:
         code:
@@ -68,7 +66,7 @@ components:
     Browser:
       title: Browser
       required:
-      - href
+        - href
       type: object
       properties:
         href:
@@ -78,7 +76,7 @@ components:
     Links:
       title: Links
       required:
-      - browser
+        - browser
       type: object
       properties:
         browser:
@@ -89,7 +87,7 @@ components:
     SsoInSsoSsoinSessionInforequest:
       title: SsoInSsoSsoinSessionInforequest
       required:
-      - id_token
+        - id_token
       type: object
       properties:
         id_token:
@@ -105,7 +103,7 @@ components:
     SsoInSsoSsoinSessionInforesponse:
       title: SsoInSsoSsoinSessionInforesponse
       required:
-      - _links
+        - _links
       type: object
       properties:
         _links:
@@ -133,8 +131,12 @@ components:
       required: true
   securitySchemes:
     userRestricted:
-      type: OAuth 2.0
+      type: oauth2
       description: HMRC supports OAuth 2.0 for authenticating User-restricted API requests
-tags:
-- name: sso-in
-  description: ''
+      flows:
+        authorizationCode:
+          authorizationUrl: https://api.service.hmrc.gov.uk/oauth/authorize
+          tokenUrl: https://api.service.hmrc.gov.uk/oauth/token
+          refreshUrl: https://api.service.hmrc.gov.uk/oauth/refresh
+          scopes:
+            all: Access all endpoints.
