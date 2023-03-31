@@ -4,6 +4,8 @@ info:
   version: '1.0'
 servers:
   - url: https://api.service.hmrc.gov.uk/
+security:
+  - userRestricted: [ all ]
 paths:
   /sso-in/sso/ssoin/sessionInfo:
     post:
@@ -51,8 +53,6 @@ paths:
                       browser:
                         href: /sso/ssoin/5a003c6352000072009a711e
       deprecated: false
-      security:
-        - userRestricted: [ all ]
 components:
   schemas:
     errorResponse:
