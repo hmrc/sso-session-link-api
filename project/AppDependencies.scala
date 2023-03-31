@@ -2,13 +2,10 @@ import play.sbt.PlayImport._
 import sbt._
 
 object AppDependencies {
-  private val bootstrapVer = "7.9.0"
-
   private val compile = Seq(
     ws,
     guice,
-    "uk.gov.hmrc" %% "government-gateway-domain" % "8.0.0-play-28",
-    "uk.gov.hmrc" %% "bootstrap-backend-play-28" % bootstrapVer
+    "uk.gov.hmrc" %% "government-gateway-domain" % "8.0.0-play-28"
   )
 
   private val test = Seq(
