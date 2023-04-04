@@ -29,7 +29,7 @@ class DocumentationController @Inject() (config: Configuration, cc: ControllerCo
     Ok(views.txt.definition(permitted)).withHeaders(CONTENT_TYPE -> MimeTypes.JSON)
   }
 
-  def raml(version: String, file: String): Action[AnyContent] = {
+  def document(version: String, file: String): Action[AnyContent] = {
     assets.at(s"/public/api/conf/$version", file)
   }
 }

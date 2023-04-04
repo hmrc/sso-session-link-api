@@ -1,7 +1,7 @@
 resolvers += "HMRC-open-artefacts-maven" at "https://open.artefacts.tax.service.gov.uk/maven2"
 resolvers += Resolver.url("HMRC-open-artefacts-ivy", url("https://open.artefacts.tax.service.gov.uk/ivy2"))(Resolver.ivyStylePatterns)
 
-addSbtPlugin("com.typesafe.play" % "sbt-plugin" % "2.8.16")
+addSbtPlugin("com.typesafe.play" % "sbt-plugin" % "2.8.19")
 
 addSbtPlugin("org.wartremover" % "sbt-wartremover" % "3.0.9")
 

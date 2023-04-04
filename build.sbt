@@ -14,6 +14,7 @@ lazy val microservice = Project("sso-session-link-api", file("."))
     majorVersion := 0,
     scalaVersion := "2.13.8",
     scalacOptions ++= Seq("-Xfatal-warnings", "-feature"),
+    scalacOptions -= "utf8", // solves ScalaDoc generation issue caused by sbt-wartremover
     libraryDependencies ++= AppDependencies(),
       Test / parallelExecution := false,
       Test / fork := false,
