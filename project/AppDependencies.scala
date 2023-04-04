@@ -1,10 +1,7 @@
-import play.sbt.PlayImport._
 import sbt._
 
 object AppDependencies {
   private val compile = Seq(
-    ws,
-    guice,
     "uk.gov.hmrc" %% "government-gateway-domain" % "8.0.0-play-28"
   )
 
