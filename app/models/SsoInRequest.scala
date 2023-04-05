@@ -24,8 +24,7 @@ case class SsoInRequest(idToken: String, mdtpSessionId: Option[String], portalSe
 object SsoInRequest {
   implicit val format: Format[SsoInRequest] = (
     (__ \ "id_token").format[String] and
-    (__ \ "mdtpSessionId").formatNullable[String] and
-    (__ \ "portalSessionId").formatNullable[String]
+      (__ \ "mdtpSessionId").formatNullable[String] and
+      (__ \ "portalSessionId").formatNullable[String]
   )(SsoInRequest.apply, unlift(SsoInRequest.unapply))
 }
-

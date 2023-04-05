@@ -25,13 +25,12 @@ import uk.gov.hmrc.http.HttpReads.Implicits._
 import scala.concurrent.{ExecutionContext, Future}
 
 class SsoConnector @Inject() (
-    http:           HttpClient,
-    servicesConfig: ServicesConfig
+  http: HttpClient,
+  servicesConfig: ServicesConfig
 )(implicit ec: ExecutionContext) {
 
   private lazy val ssoBaseUrl = servicesConfig.baseUrl("sso")
 
-  def createToken(request: SsoInRequest)(implicit hc: HeaderCarrier): Future[BrowserAffordance] = {
+  def createToken(request: SsoInRequest)(implicit hc: HeaderCarrier): Future[BrowserAffordance] =
     http.POST[SsoInRequest, BrowserAffordance](s"$ssoBaseUrl/sso/ssoin/sessionInfo", request)
-  }
 }

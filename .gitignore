@@ -1,7 +1,3 @@
-.*
-
-!.gitignore
-
 .cache
 /.classpath
 db
@@ -9,11 +5,7 @@ dist
 .DS_Store
 **/*.DS_Store
 eclipse
-*.eml
 .history
-.idea
-/.idea_modules
-*.iml
 lib
 lib_managed
 log
@@ -31,5 +23,9 @@ target
 .target
 test-result
 tmp
-.idea_modules
 bin
+
+# IDE config
+.bsp/
+.idea/
+.idea_modules

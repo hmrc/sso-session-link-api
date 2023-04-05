@@ -29,9 +29,13 @@ class SandboxController @Inject() (cc: ControllerComponents) extends BackendCont
   def createToken(): Action[JsValue] = Action.async(parse.json) { implicit request =>
     withJsonBody[SsoInRequest] { _ =>
       Future.successful {
-        Ok(Json.obj("_links" -> Json.obj(
-          "browser" -> Json.obj("href" -> "/sso/ssoin/5a003c6352000072009a711e")
-        )))
+        Ok(
+          Json.obj(
+            "_links" -> Json.obj(
+              "browser" -> Json.obj("href" -> "/sso/ssoin/5a003c6352000072009a711e")
+            )
+          )
+        )
       }
     }
   }
