@@ -26,15 +26,15 @@ import uk.gov.hmrc.play.bootstrap.backend.controller.BackendController
 import javax.inject.Inject
 import scala.concurrent.ExecutionContext
 
-class SsoInIdTokenController @Inject() (ssoConnector: SsoConnector, cc: ControllerComponents)(implicit ec: ExecutionContext) extends BackendController(cc) {
+class SsoInIdTokenController @Inject() (ssoConnector: SsoConnector, cc: ControllerComponents)(implicit ec: ExecutionContext)
+    extends BackendController(cc) {
 
   def createToken(): Action[JsValue] = Action.async(parse.json) { implicit request =>
-    withJsonBody[SsoInRequest] { ssoInRequest =>
-      ssoConnector.createToken(ssoInRequest).map(affordance => Created(Json.toJson(affordance)))
-    }.recover {
-      case UpstreamErrorResponse(message, 400, _, _) => BadRequest(message)
-      case UpstreamErrorResponse(_, 401, _, _)       => Unauthorized
-      case UpstreamErrorResponse(_, 403, _, _)       => Forbidden
-    }
+    withJsonBody[SsoInRequest](ssoInRequest => ssoConnector.createToken(ssoInRequest).map(affordance => Created(Json.toJson(affordance))))
+      .recover {
+        case UpstreamErrorResponse(message, 400, _, _) => BadRequest(message)
+        case UpstreamErrorResponse(_, 401, _, _)       => Unauthorized
+        case UpstreamErrorResponse(_, 403, _, _)       => Forbidden
+      }
   }
 }

@@ -29,9 +29,7 @@ import uk.gov.hmrc.http.UpstreamErrorResponse
 
 import scala.concurrent.{ExecutionContext, Future}
 
-class SsoInIdTokenControllerSpec
-  extends UnitSpec
-  with GuiceOneAppPerSuite {
+class SsoInIdTokenControllerSpec extends UnitSpec with GuiceOneAppPerSuite {
 
   "createToken" should {
 
@@ -71,10 +69,14 @@ class SsoInIdTokenControllerSpec
     "return 201 and an SSO in URI when an ID token and portal session ID are provided" in new Setup {
       when(mockSsoConnector.createToken(any)(any)).thenReturn(Future.successful(BrowserAffordance("/sso/something")))
 
-      val result = controller.createToken()(FakeRequest().withBody(Json.obj(
-        "id_token" -> "first.second.third",
-        "portalSessionId" -> UUID.randomUUID()
-      )))
+      val result = controller.createToken()(
+        FakeRequest().withBody(
+          Json.obj(
+            "id_token"        -> "first.second.third",
+            "portalSessionId" -> UUID.randomUUID()
+          )
+        )
+      )
       status(result) shouldBe CREATED
       contentAsJson(result) shouldBe Json.obj(
         "_links" -> Json.obj(
@@ -86,10 +88,14 @@ class SsoInIdTokenControllerSpec
     "return 201 and an SSO in URI when an ID token and MDTP session ID are provided" in new Setup {
       when(mockSsoConnector.createToken(any)(any)).thenReturn(Future.successful(BrowserAffordance("/sso/something")))
 
-      val result = controller.createToken()(FakeRequest().withBody(Json.obj(
-        "id_token" -> "first.second.third",
-        "mdtpSessionId" -> UUID.randomUUID()
-      )))
+      val result = controller.createToken()(
+        FakeRequest().withBody(
+          Json.obj(
+            "id_token"      -> "first.second.third",
+            "mdtpSessionId" -> UUID.randomUUID()
+          )
+        )
+      )
       status(result) shouldBe CREATED
       contentAsJson(result) shouldBe Json.obj(
         "_links" -> Json.obj(
@@ -101,11 +107,15 @@ class SsoInIdTokenControllerSpec
     "return 201 and an SSO in URI when an ID token, MDTP session ID, and a portal session ID are provided" in new Setup {
       when(mockSsoConnector.createToken(any)(any)).thenReturn(Future.successful(BrowserAffordance("/sso/something")))
 
-      val result = controller.createToken()(FakeRequest().withBody(Json.obj(
-        "id_token" -> "first.second.third",
-        "mdtpSessionId" -> UUID.randomUUID(),
-        "portalSessionId" -> UUID.randomUUID()
-      )))
+      val result = controller.createToken()(
+        FakeRequest().withBody(
+          Json.obj(
+            "id_token"        -> "first.second.third",
+            "mdtpSessionId"   -> UUID.randomUUID(),
+            "portalSessionId" -> UUID.randomUUID()
+          )
+        )
+      )
       status(result) shouldBe CREATED
       contentAsJson(result) shouldBe Json.obj(
         "_links" -> Json.obj(

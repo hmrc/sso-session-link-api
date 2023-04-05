@@ -22,7 +22,6 @@ import uk.gov.hmrc.play.bootstrap.http.DefaultHttpClient
 import uk.gov.hmrc.http.HttpClient
 
 class GuiceModule(environment: Environment, configuration: Configuration) extends AbstractModule {
-  override def configure(): Unit = {
+  override def configure(): Unit =
     bind(classOf[HttpClient]).to(classOf[DefaultHttpClient])
-  }
 }

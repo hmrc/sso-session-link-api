@@ -1,4 +1,4 @@
-import play.sbt.PlayImport.PlayKeys
+import play.sbt.PlayImport.PlayKeys.playDefaultPort
 import sbt.Keys._
 import sbt._
 import uk.gov.hmrc.DefaultBuildSettings._
@@ -14,16 +14,15 @@ lazy val microservice = Project("sso-session-link-api", file("."))
     majorVersion := 0,
     scalaVersion := "2.13.8",
     scalacOptions ++= Seq("-Xfatal-warnings", "-feature"),
-    scalacOptions -= "utf8", // solves ScalaDoc generation issue caused by sbt-wartremover
     libraryDependencies ++= AppDependencies(),
       Test / parallelExecution := false,
       Test / fork := false,
     retrieveManaged := true,
     integrationTestSettings(),
-    ScalariformSettings(),
     ScoverageSettings(),
     SilencerSettings(),
-    PlayKeys.playDefaultPort := 9977
+    playDefaultPort := 9977,
+    scalafmtOnCompile := true
   )
   .configs(IntegrationTest)
   .disablePlugins(sbt.plugins.JUnitXmlReportPlugin)

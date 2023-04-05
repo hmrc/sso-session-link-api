@@ -22,6 +22,8 @@ import play.api.libs.functional.syntax._
 case class BrowserAffordance(href: String)
 
 object BrowserAffordance {
-  implicit val format: Format[BrowserAffordance] = (__ \ "_links" \ "browser" \ "href").format[String]
-    .inmap(BrowserAffordance.apply, unlift(BrowserAffordance.unapply))
+  implicit val format: Format[BrowserAffordance] =
+    (__ \ "_links" \ "browser" \ "href")
+      .format[String]
+      .inmap(BrowserAffordance.apply, unlift(BrowserAffordance.unapply))
 }
