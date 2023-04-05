@@ -5,7 +5,7 @@ info:
 servers:
   - url: https://api.service.hmrc.gov.uk/
 security:
-  - userRestricted: [ sso-in ]
+  - userRestricted: [ "read:sso-in" ]
 paths:
   /sso-in/sso/ssoin/sessionInfo:
     post:
@@ -139,4 +139,4 @@ components:
           tokenUrl: https://api.service.hmrc.gov.uk/oauth/token
           refreshUrl: https://api.service.hmrc.gov.uk/oauth/refresh
           scopes:
-            sso-in: Access all endpoints.
+            "read:sso-in": Access all endpoints.
