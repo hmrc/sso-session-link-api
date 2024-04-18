@@ -1,5 +1,5 @@
 /*
- * Copyright 2023 HM Revenue & Customs
+ * Copyright 2024 HM Revenue & Customs
  *
  * Licensed under the Apache License, Version 2.0 (the "License");
  * you may not use this file except in compliance with the License.
@@ -17,10 +17,10 @@
 package controllers
 
 import java.util.UUID
-
 import play.api.libs.json.Json
 import com.github.tomakehurst.wiremock.client.WireMock._
 import com.github.tomakehurst.wiremock.matching.AnythingPattern
+import play.api.libs.ws.WSResponse
 import uk.gov.hmrc.gg.test.WireMockSpec
 import uk.gov.hmrc.http.HeaderNames
 
@@ -30,7 +30,7 @@ class SsoInIdTokenControllerWireMockSpec extends WireMockSpec {
     "return 400 Bad Request when SSO returns 400 Bad Request" in new Setup {
       expectSsoToReturnBadRequest()
 
-      val result = await(
+      val result: WSResponse = await(
         resourceRequest("/ssoin/sessionInfo")
           .withHttpHeaders(HeaderNames.xSessionId -> UUID.randomUUID().toString)
           .addHttpHeaders(HeaderNames.deviceID -> UUID.randomUUID().toString)
@@ -47,7 +47,7 @@ class SsoInIdTokenControllerWireMockSpec extends WireMockSpec {
     "return 401 Unauthorized when the ID token is invalid" in new Setup {
       expectSsoToReturnUnauthorizedForInvalidToken()
 
-      val result = await(
+      val result: WSResponse = await(
         resourceRequest("/ssoin/sessionInfo")
           .withHttpHeaders(HeaderNames.xSessionId -> UUID.randomUUID().toString)
           .addHttpHeaders(HeaderNames.deviceID -> UUID.randomUUID().toString)
@@ -64,7 +64,7 @@ class SsoInIdTokenControllerWireMockSpec extends WireMockSpec {
     "return 403 Forbidden when the device ID is missing" in new Setup {
       expectSsoToReturnForbiddenForMissingDeviceId()
 
-      val result = await(
+      val result: WSResponse = await(
         resourceRequest("/ssoin/sessionInfo")
           .withHttpHeaders(HeaderNames.xSessionId -> UUID.randomUUID().toString)
           .post(
@@ -80,7 +80,7 @@ class SsoInIdTokenControllerWireMockSpec extends WireMockSpec {
     "return 403 Forbidden when the session ID is missing" in new Setup {
       expectSsoToReturnForbiddenForMissingSessionId()
 
-      val result = await(
+      val result: WSResponse = await(
         resourceRequest("/ssoin/sessionInfo")
           .withHttpHeaders(HeaderNames.deviceID -> UUID.randomUUID().toString)
           .post(
@@ -96,7 +96,7 @@ class SsoInIdTokenControllerWireMockSpec extends WireMockSpec {
     "return 201 and an SSO in URI when the request is valid" in new Setup {
       expectSsoToReturnCreatedForValidRequest()
 
-      val result = await(
+      val result: WSResponse = await(
         resourceRequest("/ssoin/sessionInfo")
           .withHttpHeaders(HeaderNames.xSessionId -> UUID.randomUUID().toString)
           .addHttpHeaders(HeaderNames.deviceID -> UUID.randomUUID().toString)
