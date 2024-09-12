@@ -1,7 +1,11 @@
 sso-session-link-api
 ===
 
-May be used with [sso-session-api](github.com/hmrc/sso-session-api) to SSO users from the API platform to the web
+This microservice is part of the SSO journey between the API platform and the web.
+An API authorised user requests SSO via sso-session-link-api (SSO In API).
+They are returned a link to sso-frontend which must then have the desired continueUrl param appended to it.
+If when requested the ID in this link matches an earlier SSO request, a redirect is returned to the desired mdtp page with a valid web session cookie.
+(Also see the newer/simpler [sso-session-api](https://github.com/hmrc/sso-session-api))
 
 ## POST /sso/ssoin/sessionInfo
 
