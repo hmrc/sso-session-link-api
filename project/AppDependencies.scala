@@ -1,14 +1,17 @@
 import sbt.*
 
 object AppDependencies {
+  private val bootstrapVersion = "9.4.0"
+
   private val compile = Seq(
-    "uk.gov.hmrc" %% "government-gateway-domain-play-30" % "9.0.0"
+    "uk.gov.hmrc" %%       "bootstrap-common-play-30"    % bootstrapVersion,
+    "uk.gov.hmrc" %% "government-gateway-domain-play-30" % "10.1.0"
   )
 
   private val test = Seq(
-    "org.mockito" %% "mockito-scala-scalatest"         % "1.17.31" % Test,
-    "uk.gov.hmrc" %% "bootstrap-test-play-30"          % "8.5.0"   % Test,
-    "uk.gov.hmrc" %% "government-gateway-test-play-30" % "6.0.0"   % Test
+    "org.scalatestplus" %% "mockito-4-11"                    % "3.2.17.0"       % Test,
+    "uk.gov.hmrc"       %% "bootstrap-test-play-30"          % bootstrapVersion % Test,
+    "uk.gov.hmrc"       %% "government-gateway-test-play-30" % "7.0.0"          % Test
       excludeAll (
       ExclusionRule("com.fasterxml.jackson.core", "jackson-databind"),
       ExclusionRule("com.fasterxml.jackson.core", "jackson-core"),

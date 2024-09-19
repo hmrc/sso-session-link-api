@@ -21,6 +21,7 @@ import play.api.libs.json.Json
 import com.github.tomakehurst.wiremock.client.WireMock._
 import com.github.tomakehurst.wiremock.matching.AnythingPattern
 import play.api.libs.ws.WSResponse
+import play.api.libs.ws.writeableOf_JsValue
 import uk.gov.hmrc.gg.test.WireMockSpec
 import uk.gov.hmrc.http.HeaderNames
 
