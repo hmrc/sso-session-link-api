@@ -7,15 +7,15 @@ import uk.gov.hmrc.sbtdistributables.SbtDistributablesPlugin
 import uk.gov.hmrc.versioning.SbtGitVersioning.autoImport.majorVersion
 
 ThisBuild / majorVersion := 0
-ThisBuild / scalaVersion := "2.13.12"
+ThisBuild / scalaVersion := "3.5.0"
 
 lazy val microservice = Project("sso-session-link-api", file("."))
   .enablePlugins(play.sbt.PlayScala, SbtDistributablesPlugin)
   .settings(scalaSettings *)
   .settings(defaultSettings() *)
   .settings(
-    scalacOptions += "-Wconf:cat=unused-imports&src=html/.*:s",
-    scalacOptions += "-Wconf:cat=unused-imports&src=routes/.*:s",
+    scalacOptions += "-Wconf:msg=unused import&src=html/.*:s",
+    scalacOptions += "-Wconf:msg=unused import&src=routes/.*:s",
     scalacOptions += "-Wconf:src=routes/.*:s",
     libraryDependencies ++= AppDependencies(),
       Test / parallelExecution := false,

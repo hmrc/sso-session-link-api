@@ -16,8 +16,8 @@
 
 package models
 
-import play.api.libs.json._
-import play.api.libs.functional.syntax._
+import play.api.libs.json.*
+import play.api.libs.functional.syntax.*
 
 case class SsoInRequest(idToken: String, mdtpSessionId: Option[String], portalSessionId: Option[String])
 
@@ -26,5 +26,5 @@ object SsoInRequest {
     (__ \ "id_token").format[String] and
       (__ \ "mdtpSessionId").formatNullable[String] and
       (__ \ "portalSessionId").formatNullable[String]
-  )(SsoInRequest.apply, unlift(SsoInRequest.unapply))
+  )(SsoInRequest.apply, o => Tuple.fromProductTyped(o))
 }

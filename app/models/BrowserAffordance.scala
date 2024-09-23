@@ -16,8 +16,8 @@
 
 package models
 
-import play.api.libs.json._
-import play.api.libs.functional.syntax._
+import play.api.libs.json.*
+import play.api.libs.functional.syntax.*
 
 case class BrowserAffordance(href: String)
 
@@ -25,5 +25,5 @@ object BrowserAffordance {
   implicit val format: Format[BrowserAffordance] =
     (__ \ "_links" \ "browser" \ "href")
       .format[String]
-      .inmap(BrowserAffordance.apply, unlift(BrowserAffordance.unapply))
+      .inmap(BrowserAffordance.apply, _.href)
 }

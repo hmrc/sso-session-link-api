@@ -16,9 +16,10 @@
 
 package controllers
 
-import java.util.UUID
 import connectors.SsoConnector
 import models.BrowserAffordance
+import org.mockito.ArgumentMatchers.any
+import org.mockito.Mockito.when
 import org.scalatestplus.play.guice.GuiceOneAppPerSuite
 import play.api.libs.json.Json
 import play.api.mvc.{ControllerComponents, Result}
@@ -26,6 +27,7 @@ import play.api.test.FakeRequest
 import uk.gov.hmrc.gg.test.UnitSpec
 import uk.gov.hmrc.http.UpstreamErrorResponse
 
+import java.util.UUID
 import scala.concurrent.{ExecutionContext, Future}
 
 class SsoInIdTokenControllerSpec extends UnitSpec with GuiceOneAppPerSuite {
