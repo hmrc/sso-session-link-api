@@ -23,9 +23,7 @@ import play.api.mvc.{Action, AnyContent, ControllerComponents}
 import uk.gov.hmrc.play.bootstrap.backend.controller.BackendController
 
 class DocumentationController @Inject() (config: Configuration, cc: ControllerComponents, assets: Assets) extends BackendController(cc) {
-  private lazy val permitted = config.getOptional[Seq[String]]("api.access.version-1.0.permittedApplicationIds").getOrElse(Nil)
-
-  def definition(): Action[AnyContent] = Action(_ => Ok(views.txt.definition(permitted)).withHeaders(CONTENT_TYPE -> MimeTypes.JSON))
+  def definition(): Action[AnyContent] = Action(_ => Ok(views.txt.definition()).withHeaders(CONTENT_TYPE -> MimeTypes.JSON))
 
   def document(version: String, file: String): Action[AnyContent] =
     assets.at(s"/public/api/conf/$version", file)
