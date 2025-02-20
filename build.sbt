@@ -7,7 +7,7 @@ import uk.gov.hmrc.sbtdistributables.SbtDistributablesPlugin
 import uk.gov.hmrc.versioning.SbtGitVersioning.autoImport.majorVersion
 
 ThisBuild / majorVersion := 0
-ThisBuild / scalaVersion := "3.5.0"
+ThisBuild / scalaVersion := "3.3.4"
 
 lazy val microservice = Project("sso-session-link-api", file("."))
   .enablePlugins(play.sbt.PlayScala, SbtDistributablesPlugin)
