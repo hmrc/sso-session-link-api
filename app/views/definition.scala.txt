@@ -1,7 +1,3 @@
-@import play.api.libs.json.Json
-
-@()
-
 {
     "api": {
         "name": "Sso In API",
@@ -19,4 +15,3 @@
         ]
     }
 }
-

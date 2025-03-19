@@ -17,12 +17,11 @@
 package controllers
 
 import javax.inject.Inject
-import play.api.Configuration
 import play.api.http.MimeTypes
 import play.api.mvc.{Action, AnyContent, ControllerComponents}
 import uk.gov.hmrc.play.bootstrap.backend.controller.BackendController
 
-class DocumentationController @Inject() (config: Configuration, cc: ControllerComponents, assets: Assets) extends BackendController(cc) {
+class DocumentationController @Inject() (cc: ControllerComponents, assets: Assets) extends BackendController(cc) {
   def definition(): Action[AnyContent] = Action(_ => Ok(views.txt.definition()).withHeaders(CONTENT_TYPE -> MimeTypes.JSON))
 
   def document(version: String, file: String): Action[AnyContent] =
