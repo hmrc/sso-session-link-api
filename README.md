@@ -29,3 +29,9 @@ _NOTE: requires MDTP bearer token_
     }
 }
 ```
+
+## Running the tests
+
+```
+sbt clean compile coverage test it/test coverageReport
+```
