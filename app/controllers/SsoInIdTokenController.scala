@@ -22,6 +22,7 @@ import play.api.libs.json.{JsValue, Json}
 import play.api.mvc.{Action, ControllerComponents}
 import uk.gov.hmrc.http.UpstreamErrorResponse
 import uk.gov.hmrc.play.bootstrap.backend.controller.BackendController
+import scala.concurrent.Future
 
 import javax.inject.Inject
 import scala.concurrent.ExecutionContext
@@ -30,11 +31,6 @@ class SsoInIdTokenController @Inject() (ssoConnector: SsoConnector, cc: Controll
     extends BackendController(cc) {
 
   def createToken(): Action[JsValue] = Action.async(parse.json) { implicit request =>
-    withJsonBody[SsoInRequest](ssoInRequest => ssoConnector.createToken(ssoInRequest).map(affordance => Created(Json.toJson(affordance))))
-      .recover {
-        case UpstreamErrorResponse(message, 400, _, _) => BadRequest(message)
-        case UpstreamErrorResponse(_, 401, _, _)       => Unauthorized
-        case UpstreamErrorResponse(_, 403, _, _)       => Forbidden
-      }
+    Future(InternalServerError("This service has been deprecated, please remove calls to it. There is no alternative."))
   }
 }
