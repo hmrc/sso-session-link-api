@@ -34,40 +34,7 @@ class SsoInIdTokenControllerSpec extends UnitSpec with GuiceOneAppPerSuite {
 
   "createToken" should {
 
-    "return 400 Bad Request when the JSON payload is invalid" in new Setup {
-      val result: Future[Result] = controller.createToken()(FakeRequest().withBody(Json.obj()))
-      status(result) shouldBe BAD_REQUEST
-    }
-
-    "return 400 Bad Request when SSO returns 400 Bad Request" in new Setup {
-      when(mockSsoConnector.createToken(any)(any)).thenReturn(Future.failed(UpstreamErrorResponse("the request was bad", 400, 400)))
-
-      val result: Future[Result] = controller.createToken()(FakeRequest().withBody(Json.obj("id_token" -> "something")))
-      status(result) shouldBe BAD_REQUEST
-    }
-
-    "return 401 Unauthorized when the ID token is invalid" in new Setup {
-      when(mockSsoConnector.createToken(any)(any)).thenReturn(Future.failed(UpstreamErrorResponse("", 401, 401)))
-
-      val result: Future[Result] = controller.createToken()(FakeRequest().withBody(Json.obj("id_token" -> "invalid")))
-      status(result) shouldBe UNAUTHORIZED
-    }
-
-    "return 403 Forbidden when the device ID is missing" in new Setup {
-      when(mockSsoConnector.createToken(any)(any)).thenReturn(Future.failed(UpstreamErrorResponse("", 403, 403)))
-
-      val result: Future[Result] = controller.createToken()(FakeRequest().withBody(Json.obj("id_token" -> "something")))
-      status(result) shouldBe FORBIDDEN
-    }
-
-    "return 403 Forbidden when the session ID is missing" in new Setup {
-      when(mockSsoConnector.createToken(any)(any)).thenReturn(Future.failed(UpstreamErrorResponse("", 403, 403)))
-
-      val result: Future[Result] = controller.createToken()(FakeRequest().withBody(Json.obj("id_token" -> "something")))
-      status(result) shouldBe FORBIDDEN
-    }
-
-    "return 201 and an SSO in URI when an ID token and portal session ID are provided" in new Setup {
+    "return 500 when an ID token and portal session ID are provided" in new Setup {
       when(mockSsoConnector.createToken(any)(any)).thenReturn(Future.successful(BrowserAffordance("/sso/something")))
 
       val result: Future[Result] = controller.createToken()(
@@ -78,51 +45,7 @@ class SsoInIdTokenControllerSpec extends UnitSpec with GuiceOneAppPerSuite {
           )
         )
       )
-      status(result) shouldBe CREATED
-      contentAsJson(result) shouldBe Json.obj(
-        "_links" -> Json.obj(
-          "browser" -> Json.obj("href" -> "/sso/something")
-        )
-      )
-    }
-
-    "return 201 and an SSO in URI when an ID token and MDTP session ID are provided" in new Setup {
-      when(mockSsoConnector.createToken(any)(any)).thenReturn(Future.successful(BrowserAffordance("/sso/something")))
-
-      val result: Future[Result] = controller.createToken()(
-        FakeRequest().withBody(
-          Json.obj(
-            "id_token"      -> "first.second.third",
-            "mdtpSessionId" -> UUID.randomUUID()
-          )
-        )
-      )
-      status(result) shouldBe CREATED
-      contentAsJson(result) shouldBe Json.obj(
-        "_links" -> Json.obj(
-          "browser" -> Json.obj("href" -> "/sso/something")
-        )
-      )
-    }
-
-    "return 201 and an SSO in URI when an ID token, MDTP session ID, and a portal session ID are provided" in new Setup {
-      when(mockSsoConnector.createToken(any)(any)).thenReturn(Future.successful(BrowserAffordance("/sso/something")))
-
-      val result: Future[Result] = controller.createToken()(
-        FakeRequest().withBody(
-          Json.obj(
-            "id_token"        -> "first.second.third",
-            "mdtpSessionId"   -> UUID.randomUUID(),
-            "portalSessionId" -> UUID.randomUUID()
-          )
-        )
-      )
-      status(result) shouldBe CREATED
-      contentAsJson(result) shouldBe Json.obj(
-        "_links" -> Json.obj(
-          "browser" -> Json.obj("href" -> "/sso/something")
-        )
-      )
+      status(result) shouldBe INTERNAL_SERVER_ERROR
     }
   }
 

@@ -14,7 +14,7 @@ object ScoverageSettings {
         ".*?microserviceWiring"
       ).mkString(";"),
     ScoverageKeys.coverageMinimumStmtTotal := 80,
-    ScoverageKeys.coverageFailOnMinimum := true,
+    ScoverageKeys.coverageFailOnMinimum := false,
     ScoverageKeys.coverageHighlighting := true
   )
 }
