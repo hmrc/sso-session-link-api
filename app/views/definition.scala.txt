@@ -8,9 +8,7 @@
                 "version": "1.0",
                 "status": "DEPRECATED",
                 "endpointsEnabled": true,
-                "access": {
-                    "type": "PRIVATE"
-                }
+                "access": "PRIVATE"
             }
         ]
     }
